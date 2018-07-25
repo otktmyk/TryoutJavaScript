@@ -6,24 +6,20 @@ const SEED_NUMBER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 const SECRET_NUMBER = [...Array(4)].map(function(value) {
   return getNumber(SEED_NUMBER)
 })
-
 let count = 0
-while (true) {
+
+const { Cli, Handler } = require('../clitool/cli')
+new Cli(new Handler()).run('4桁の数字は？')
+
+Handler.prototype.exe = function(args, fn) {
+  const ANSWER = args.split('')
   count++
 
-  const SEED_NUMBER_FOR_ANSWER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-  console.log('4桁の数字は？')
-  // nodeで実行するのにprompt使えないので、とりあえず入力されるべき回答は都度乱数から取得
-  // const ANSWER = window.prompt('0から100までの数字を入力してください。')
-  const ANSWER = [...Array(4)].map(function(value) {
-    return getNumber(SEED_NUMBER_FOR_ANSWER)
-  })
-
-  // 入力された数字を出力
-  console.log(ANSWER.join(''))
   if (judgement(ANSWER, SECRET_NUMBER)) {
     console.log(count + '回で正解！')
-    break
+    fn('close')
+  } else {
+    fn('')
   }
 }
 

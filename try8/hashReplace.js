@@ -16,7 +16,13 @@ const hash = {
   text: 'foofava',
 }
 
-console.log(toUry(hash))
+const { Cli, Handler } = require('../clitool/cli')
+new Cli(new Handler()).run('please Enter.')
+
+Handler.prototype.exe = function(args, fn) {
+  console.dir(toUry(hash), { depth: null })
+  fn('close')
+}
 
 function toUry(hash) {
   for (const key in hash) {
@@ -27,6 +33,5 @@ function toUry(hash) {
     }
   }
 
-  // ハッシュの値をすべて出力できるようにJSON文字列に変換
-  return JSON.stringify(hash, null, 2)
+  return hash
 }

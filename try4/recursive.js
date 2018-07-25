@@ -1,15 +1,19 @@
 'use strict'
 
-// nodeで実行するのにprompt使えないので、とりあえず入力値は定数で代用
-// const INPUT_NUMBER = window.prompt('数字を入力してください。')
-const INPUT_NUMBER = 5
+const { Cli, Handler } = require('../clitool/cli')
+new Cli(new Handler()).run('数値を入力してください')
 
-console.log(summation(INPUT_NUMBER))
+Handler.prototype.exe = function(args, fn) {
+  const INPUT_NUMBER = parseInt(args)
 
-function summation(additionTarget) {
-  if (additionTarget !== 0) {
-    return additionTarget + summation(additionTarget - 1)
-  } else {
-    return 0
+  console.log(summation(INPUT_NUMBER))
+
+  function summation(additionTarget) {
+    if (additionTarget === 0) {
+      return 0
+    } else {
+      return additionTarget + summation(additionTarget - 1)
+    }
   }
+  fn('close')
 }
